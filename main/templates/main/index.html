@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Login </title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<img class="wave" src="{% static 'images/wave.png' %}">
+	<div class="container">
+		<div class="img">
+			<img src="{% static 'images/bg.svg' %}">
+		</div>
+		<div class="login-content">
+			<form action="index.html">
+				<h2 class="title"> Office Portal </h2>
+                
+                <!---- Here are the input forms -->
+           		<div class="input-div username">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5>Username</h5>
+           		   		<input type="text" class="input">
+           		   </div>
+           		</div>
+
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5>Password</h5>
+           		    	<input type="password" class="input">
+            	   </div>
+            	</div>
+
+                <div class="input-div confirm">
+                    <div class="i"> 
+                         <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                         <h5>Confirm Password</h5>
+                         <input type="password" class="input">
+                 </div>
+              </div>
+
+            	<a href="#">Forgot Password?</a>
+            	<button type="submit" class="btn" method="POST"> Sign Up </button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static "/script/login.js" %}"></script>
+</body>
+</html>
