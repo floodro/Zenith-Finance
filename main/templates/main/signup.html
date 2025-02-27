@@ -15,17 +15,23 @@
 			<img src="{% static 'images/bg.svg' %}">
 		</div>
 		<div class="login-content">
-			<form action="index.html">
-				<h2 class="title"> Office Portal </h2>
-                
-                <!---- Here are the input forms -->
+			<form method="POST" action="{% url 'signup' %}">
+				{% csrf_token %}
+				<h2 class="title"> Sign Up </h2>
+
+				{% if messages %}
+					{% for message in messages %}
+						<p style="color: red;">{{ message }}</p>
+					{% endfor %}
+				{% endif %}
+
            		<div class="input-div username">
            		   <div class="i">
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
            		   		<h5>Username</h5>
-           		   		<input type="text" class="input">
+           		   		<input type="text" class="input" name="username" required>
            		   </div>
            		</div>
 
@@ -35,7 +41,7 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Password</h5>
-           		    	<input type="password" class="input">
+           		    	<input type="password" class="input" name="password" required>
             	   </div>
             	</div>
 
@@ -45,12 +51,12 @@
                     </div>
                     <div class="div">
                          <h5>Confirm Password</h5>
-                         <input type="password" class="input">
+                         <input type="password" class="input" name="confirm_password" required>
                  </div>
               </div>
 
             	<a href="#">Forgot Password?</a>
-            	<button type="submit" class="btn" method="POST"> Sign Up </button>
+            	<button type="submit" class="btn"> Sign Up </button>
             </form>
         </div>
     </div>
