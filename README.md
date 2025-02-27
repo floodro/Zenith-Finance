@@ -1,42 +1,64 @@
-# OPERA - Office Portal and Events Appraiser
+# QA TestLab
 
-OPERA, short for Office Portal and Events  Appraiser, is a web-based management portal made for the Office of Culture & Arts of Batangas State University.
+## Overview
+QA TestLab is a simple authentication system built with Django, designed to help QA engineers practice API testing in Postman. It provides basic authentication endpoints that allow users to sign up, log in, and access a protected dashboard. The system uses Django's built-in authentication framework to securely manage user credentials.
 
-This fullstack application was built using the Django Python framework, in both front and back-end.
-
-## VisualSync - Team
-```
-1. Salamat, Billymer - Team Lead / Back-end Developer
-2. Morastel, Clair - Assistant Team Lead
-3. Kalalo, Febrj Yarrah - Front-end Developer
-4. Falic, Marc Daniel - Quality Assurance Head
-```
+## Features
+- User Sign-up with validation
+- User Login with session handling
+- Protected Dashboard (only accessible after login)
+- Logout functionality
 
 ## Installation
-
-Assuming you have Python installed on your computer, you can use the package manager [pip](https://pip.pypa.io/en/stable/) to install Django.
-
+### 1. Clone the Repository
 ```bash
-pip install django
+git clone <repository_url>
+cd qa-testlab
 ```
 
-## Running the Server
+### 2. Create and Activate a Virtual Environment
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+```
 
-```python
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run Database Migrations
+```bash
+python manage.py migrate
+```
+
+### 5. Create a Superuser (Optional, for Admin Panel)
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Start the Server
+```bash
 python manage.py runserver
 ```
-Enter this command to run a local development server on your computer, that updates in real-time once you make changes to the code.
-```Performing system checks...
 
-System check identified no issues (0 silenced).
+The application will be available at `http://127.0.0.1:8000/`.
 
-You have unapplied migrations; your app may not work properly until they are applied.
-Run 'python manage.py migrate' to apply them.
+## Endpoints
+| Endpoint      | Method | Description                  |
+|--------------|--------|------------------------------|
+| `/`          | GET    | Landing page                 |
+| `/signup/`   | POST   | User registration            |
+| `/login/`    | POST   | User authentication          |
+| `/dashboard/`| GET    | Protected user dashboard     |
+| `/logout/`   | GET    | Logs out the user            |
 
-March 26, 2024 - 15:50:53
-Django version 5.0, using settings 'mysite.settings'
-Starting development server at http://127.0.0.1:8000/ 
-Quit the server with CONTROL-C.
-```
+## Testing Authentication with Postman
+1. **Sign Up:** Send a `POST` request to `/signup/` with `username`, `password`, and `confirm_password`.
+2. **Login:** Send a `POST` request to `/login/` with `username` and `password`.
+3. **Access Dashboard:** Send a `GET` request to `/dashboard/` (should be accessible only after login).
+4. **Logout:** Send a `GET` request to `/logout/`.
 
-With that, the server’s running. Visit http://127.0.0.1:8000/ or /localhost:8000 with your web browser.
+## License
+This project is open-source and available under the MIT License.
+
