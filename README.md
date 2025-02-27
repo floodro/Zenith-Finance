@@ -19,7 +19,7 @@ cd qa-testlab
 ### 2. Create and Activate a Virtual Environment
 ```bash
 python -m venv env
-.env\Scripts\activate`
+env\Scripts\activate`
 ```
 
 ### 3. Install Dependencies
