@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Transaction</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .profile-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+        .input-field {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-actions {
+            grid-column: 1 / -1;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .btn {
+             background-color: #bd0e2b;
+             color: #ffffff;
+             border: none;
+             padding: 10px 20px;
+             border-radius: 5px;
+             cursor: pointer;
+             text-decoration: none;
+             font-weight: 600;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
+            </div>
+             <ul class="sidebar-menu">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <li class="active"><a href="{% url 'add_transaction' %}"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li><a href="#"><i class="fas fa-chart-pie"></i> Reports</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Add New Transaction</h2>
+                <p>Enter the details for your new transaction below.</p>
+            </div>
+
+            <div class="recent-transactions">
+                <form method="POST" action="{% url 'add_transaction' %}">
+                    {% csrf_token %}
+                    <div class="profile-form">
+                        <div class="form-group">
+                            <label for="{{ form.date.id_for_label }}">Date</label>
+                            {{ form.date }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.amount.id_for_label }}">Amount</label>
+                            {{ form.amount }}
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                             <label for="{{ form.description.id_for_label }}">Description</label>
+                            {{ form.description }}
+                        </div>
+                        <div class="form-group">
+                             <label for="{{ form.transaction_type.id_for_label }}">Type</label>
+                            {{ form.transaction_type }}
+                        </div>
+                    </div>
+                     <div class="form-actions">
+                        <a href="{% url 'transactions' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn" style="margin-left: 10px;">Save Transaction</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

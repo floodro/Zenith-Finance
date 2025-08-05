@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reports</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .placeholder-content {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+        }
+        .placeholder-content i {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="{% url 'transactions' %}"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li class="active"><a href="{% url 'reports' %}"><i class="fas fa-chart-pie"></i> Reports</a></li>
+                <li><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Reports</h2>
+                <p>Visualize your financial data.</p>
+            </div>
+
+            <div class="recent-transactions">
+                <div class="placeholder-content">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Coming Soon!</h3>
+                    <p>This section will feature detailed reports, spending breakdowns by category, and income vs. expense charts to give you deeper insights into your finances.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
