@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Add some specific styles for the profile form */
+        .profile-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+        .input-field {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa; /* Visually indicate disabled fields */
+        }
+        .form-actions {
+            grid-column: 1 / -1; /* Span across all columns */
+            text-align: right;
+        }
+        .btn {
+            background-color: #bd0e2b;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn:hover {
+            background-color: #a40c25;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li class="active"><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="{% url 'transactions' %}"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li><a href="{% url 'reports' %}"><i class="fas fa-chart-pie"></i> Reports</a></li>
+                <li><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Profile</h2>
+                <p>Manage your personal information.</p>
+            </div>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="alert alert-success">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="recent-transactions">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>User Data</h3>
+                    <button id="edit-button" class="btn btn-secondary">Edit Profile</button>
+                </div>
+                <form id="profile-form" method="POST" action="{% url 'profile' %}">
+                    {% csrf_token %}
+                    <div class="profile-form">
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" class="input-field" value="{{ user.first_name }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" class="input-field" value="{{ user.last_name }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="input-field" value="{{ user.email }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_number">Contact Number</label>
+                            <input type="text" id="contact_number" name="contact_number" class="input-field" placeholder="e.g., +1234567890" disabled>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="save-button" class="btn" style="display: none;">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editButton = document.getElementById('edit-button');
+            const saveButton = document.getElementById('save-button');
+            const formInputs = document.querySelectorAll('#profile-form .input-field');
+
+            editButton.addEventListener('click', function () {
+                // Enable all input fields
+                formInputs.forEach(input => {
+                    input.disabled = false;
+                    input.style.backgroundColor = '#ffffff'; // Change style to indicate they are editable
+                });
+
+                // Show the save button and hide the edit button
+                saveButton.style.display = 'inline-block';
+                editButton.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

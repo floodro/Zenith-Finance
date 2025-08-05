@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .settings-section {
+            margin-bottom: 40px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+        .input-field {
+            width: 50%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn {
+            background-color: #bd0e2b;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn:hover {
+            background-color: #a40c25;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="{% url 'transactions' %}"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li><a href="{% url 'reports' %}"><i class="fas fa-chart-pie"></i> Reports</a></li>
+                <li class="active"><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Settings</h2>
+                <p>Configure your account and notification preferences.</p>
+            </div>
+
+            <div class="recent-transactions">
+                <div class="settings-section">
+                    <h3>Change Password</h3>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" id="current_password" name="current_password" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" id="new_password" name="new_password" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm New Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="input-field">
+                        </div>
+                        <button type="submit" class="btn">Update Password</button>
+                    </form>
+                </div>
+
+                <hr style="border: 1px solid #f0f0f0; margin: 40px 0;">
+
+                <div class="settings-section">
+                    <h3>Notification Settings</h3>
+                    <form method="POST" action="">
+                         {% csrf_token %}
+                         <div class="form-group checkbox-group">
+                            <input type="checkbox" id="monthly_summary" name="monthly_summary" checked>
+                            <label for="monthly_summary">Receive monthly financial summaries by email.</label>
+                         </div>
+                         <div class="form-group checkbox-group">
+                            <input type="checkbox" id="large_transaction" name="large_transaction">
+                            <label for="large_transaction">Notify me for any transaction over $1,000.</label>
+                         </div>
+                         <button type="submit" class="btn">Save Preferences</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
