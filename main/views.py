@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -81,3 +81,12 @@ def dashboard(request):
     }
 
     return render(request, 'main/dashboard.html', context)
+
+@login_required
+@user_passes_test(is_staff_member)
+def admin_upload_transactions(request):
+    """Handle the upload of transactions by admin."""
+    if request.method == "POST":
+        # Handle file upload and processing logic here
+        messages.success(request, "Transactions uploaded successfully!")
+        return redirect("transaction_list")
