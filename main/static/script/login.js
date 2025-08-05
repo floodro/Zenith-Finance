@@ -1,20 +1,10 @@
-const inputs = document.querySelectorAll(".input");
-
-
-function addcl(){
-	let parent = this.parentNode.parentNode;
-	parent.classList.add("focus");
-}
-
-function remcl(){
-	let parent = this.parentNode.parentNode;
-	if(this.value == ""){
-		parent.classList.remove("focus");
-	}
-}
-
-
-inputs.forEach(input => {
-	input.addEventListener("focus", addcl);
-	input.addEventListener("blur", remcl);
-});
+setTimeout(function() {
+        var messages = document.getElementById("messages");
+        if (messages) {
+            messages.style.transition = "opacity 1s ease-out";
+            messages.style.opacity = "0";
+            setTimeout(function() {
+                messages.style.display = "none";
+            }, 1000);
+        }
+    }, 3000);
