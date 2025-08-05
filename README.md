@@ -2,6 +2,9 @@
 
 A personal finance tracking web application built with Django. This project allows users to manage their income and expenses, view financial summaries on a dashboard, and maintain their user profile.
 
+<img width="1917" height="900" alt="image" src="https://github.com/user-attachments/assets/6976a83f-c823-4659-b328-2f4538a68dcc" />
+<img width="1907" height="900" alt="image" src="https://github.com/user-attachments/assets/d865b012-8390-46d6-960c-a312e02db464" />
+
 ## Features
 
 -   **User Authentication**: Secure user registration, login, and logout functionality.
