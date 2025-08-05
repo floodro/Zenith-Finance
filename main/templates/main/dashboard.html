@@ -1,84 +1,100 @@
 {% load static %}
-{% load django_tables2 %}
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome, {{ user.username }}!</h1>
-        <p>User Management Dashboard</p>
-
-        {% if messages %}
-            <div id="messages">
-                {% for message in messages %}
-                    <div class="alert">{{ message }}</div>
-                {% endfor %}
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
             </div>
-        {% endif %}
+            <ul class="sidebar-menu">
+                <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-wallet"></i> Accounts</a></li>
+                <li><a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li><a href="#"><i class="fas fa-chart-pie"></i> Reports</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Welcome, {{ user.username }}!</h2>
+                <p>Here's a summary of your financial activity.</p>
+            </div>
 
-        {% render_table table %}
-        <a href="{% url 'logout' %}"><button>Logout</button></a>
-    </div>
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header"><h4>Total Balance</h4></div>
+                    <div class="card-body">
+                        <!-- Display dynamic total balance -->
+                        <h2>${{ total_balance|floatformat:2 }}</h2>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h4>Income</h4></div>
+                    <div class="card-body">
+                        <!-- Display dynamic total income -->
+                        <h2 class="income-amount">+${{ total_income|floatformat:2 }}</h2>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h4>Expenses</h4></div>
+                    <div class="card-body">
+                        <!-- Display dynamic total expenses -->
+                        <h2 class="expense-amount">-${{ total_expenses|floatformat:2 }}</h2>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Popup form for editing user -->
-    <div id="editUserModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Edit User</h2>
-            <form id="editUserForm" method="post" action="{% url 'update_user' user_id=0 %}">
-                {% csrf_token %}
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <button type="submit">Save</button>
-            </form>
+            <div class="recent-transactions">
+                <h3>Recent Transactions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.date|date:"Y-m-d" }}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>
+                                <!-- Add a status-like tag for the transaction type -->
+                                <span class="status-{{ transaction.transaction_type|lower }}">
+                                    {{ transaction.get_transaction_type_display }}
+                                </span>
+                            </td>
+                            <!-- Check if it's income or expense and display with correct class -->
+                            {% if transaction.transaction_type == 'INCOME' %}
+                                <td class="income-amount">+${{ transaction.amount|floatformat:2 }}</td>
+                            {% else %}
+                                <td class="expense-amount">-${{ transaction.amount|floatformat:2 }}</td>
+                            {% endif %}
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px;">No transactions found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-    <script>
-        // Get the modal
-        var modal = document.getElementById("editUserModal");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Function to open the modal and populate the form with user data
-        function openEditUserModal(userId, username, email) {
-            document.getElementById("username").value = username;
-            document.getElementById("email").value = email;
-            document.getElementById("editUserForm").action = `/update_user/${userId}/`;
-            modal.style.display = "flex"; // Show the modal
-        }
-
-        // Function to fade out messages after 3 seconds
-        setTimeout(function() {
-            var messages = document.getElementById("messages");
-            if (messages) {
-                messages.style.transition = "opacity 1s ease-out";
-                messages.style.opacity = "0";
-                setTimeout(function() {
-                    messages.style.display = "none";
-                }, 1000);
-            }
-        }, 3000);
-    </script>
 </body>
 </html>
