@@ -1,66 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Profile</title>
+    <title>Profile | Zenith</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        /* Add some specific styles for the profile form */
-        .profile-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group label {
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 600;
-        }
-        .input-field {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7fa; /* Visually indicate disabled fields */
-        }
-        .form-actions {
-            grid-column: 1 / -1; /* Span across all columns */
-            text-align: right;
-        }
-        .btn {
-            background-color: #bd0e2b;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .btn:hover {
-            background-color: #a40c25;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-    </style>
 </head>
 <body>
     <div class="dashboard-container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
+                <!-- Zenith Logo - White Version -->
+                <svg width="120" height="35" viewBox="0 0 120 35" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="none" fill-rule="evenodd">
+                        <path d="M0 35L17.5 5L35 35H25.219L17.5 18.281L9.781 35H0Z" fill="#FFFFFF"/>
+                        <text font-family="Poppins, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">
+                            <tspan x="45" y="29">Zenith</tspan>
+                        </text>
+                    </g>
+                </svg>
             </div>
             <ul class="sidebar-menu">
                 <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
@@ -88,7 +48,7 @@
             {% endif %}
 
             <div class="recent-transactions">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="header-actions">
                     <h3>User Data</h3>
                     <button id="edit-button" class="btn btn-secondary">Edit Profile</button>
                 </div>
@@ -109,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <label for="contact_number">Contact Number</label>
-                            <input type="text" id="contact_number" name="contact_number" class="input-field" placeholder="e.g., +1234567890" disabled>
+                            <input type="text" id="contact_number" name="contact_number" class="input-field" value="{{ user.profile.contact_number|default_if_none:'' }}" placeholder="e.g., +1234567890" disabled>
                         </div>
                         <div class="form-actions">
                             <button type="submit" id="save-button" class="btn" style="display: none;">Save Changes</button>
@@ -127,13 +87,10 @@
             const formInputs = document.querySelectorAll('#profile-form .input-field');
 
             editButton.addEventListener('click', function () {
-                // Enable all input fields
                 formInputs.forEach(input => {
                     input.disabled = false;
-                    input.style.backgroundColor = '#ffffff'; // Change style to indicate they are editable
+                    input.style.backgroundColor = '#ffffff';
                 });
-
-                // Show the save button and hide the edit button
                 saveButton.style.display = 'inline-block';
                 editButton.style.display = 'none';
             });

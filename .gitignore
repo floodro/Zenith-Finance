@@ -11,3 +11,6 @@ db.sqlite3
 
 # Ignore __pycache__ directories
     __pycache__/
+
+# Pytest cache
+.pytest_cache/

@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	{% load static %}
-    <title>Login</title>
+    {% load static %}
+    <title>Login | Zenith</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div class="auth-container">
-        <img src="{% static 'images/homecredit.png' %}" alt="Logo" class="logo">
+        <!-- Zenith Logo - Color Version -->
+        <svg width="120" height="35" viewBox="0 0 120 35" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 1.5rem;">
+            <g fill="none" fill-rule="evenodd">
+                <path d="M0 35L17.5 5L35 35H25.219L17.5 18.281L9.781 35H0Z" fill="#2C5282"/>
+                <text font-family="Poppins, sans-serif" font-size="24" font-weight="600" fill="#2D3748">
+                    <tspan x="45" y="29">Zenith</tspan>
+                </text>
+            </g>
+        </svg>
+
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
 
@@ -36,6 +45,5 @@
             Don't have an account? <a href="{% url 'signup' %}">Sign Up</a>
         </p>
     </div>
-<script src="{% static 'scripts/login.js' %}"></script>
 </body>
 </html>

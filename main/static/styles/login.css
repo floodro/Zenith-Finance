@@ -1,7 +1,7 @@
 /* General Body Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5; /* A light grey background for contrast */
+    background-color: #f0f2f5;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,30 +20,6 @@ body {
     text-align: center;
 }
 
-/* Logo Styling - Replace 'OPERA' with your actual logo */
-.logo {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #bd0e2b; /* Main brand color */
-    margin-bottom: 1rem;
-    /* If using an image logo, use this: */
-    /*
-    .logo img {
-        max-width: 180px;
-        margin-bottom: 1rem;
-    }
-    */
-}
-
-/* Title Styling */
-.title {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 2rem;
-    font-weight: 600;
-}
-
-/* Form Group for each input */
 .form-group {
     margin-bottom: 1.5rem;
     text-align: left;
@@ -58,21 +34,21 @@ body {
     font-size: 1rem;
     font-family: 'Poppins', sans-serif;
     transition: border-color 0.3s;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    box-sizing: border-box;
 }
 
 .input-field:focus {
     outline: none;
-    border-color: #bd0e2b;
+    border-color: #2C5282; /* Primary Blue */
 }
 
 /* Button Styling */
 .btn {
-    width: 50%;
+    width: 100%;
     padding: 12px;
     border: none;
     border-radius: 30px;
-    background-color: #bd0e2b; /* Main brand color */
+    background-color: #48BB78; /* Action Green */
     color: #ffffff;
     font-size: 1.1rem;
     font-weight: 600;
@@ -84,7 +60,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #a40c25; /* A darker shade for hover */
+    background-color: #38A169; /* Darker Green */
 }
 
 /* Link for signup/login toggle */
@@ -95,7 +71,7 @@ body {
 }
 
 .auth-link a {
-    color: #bd0e2b;
+    color: #2C5282; /* Primary Blue */
     text-decoration: none;
     font-weight: 600;
 }
@@ -112,13 +88,101 @@ body {
 }
 
 .messages li {
-    color: #bd0e2b; /* Main brand color for errors */
+    color: #E53E3E; /* A standard error red */
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
 }
+/* General Body Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-.logo {
-    width: 200px;
-    height: auto;
-    margin-bottom: 1rem;
+/* Main Container for the form */
+.auth-container {
+    background-color: #ffffff;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* Input field styling */
+.input-field {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #2C5282; /* Primary Blue */
+}
+
+/* Button Styling */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    background-color: #48BB78; /* Action Green */
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.btn:hover {
+    background-color: #38A169; /* Darker Green */
+}
+
+/* Link for signup/login toggle */
+.auth-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.auth-link a {
+    color: #2C5282; /* Primary Blue */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Error Messages */
+.messages {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.messages li {
+    color: #E53E3E; /* A standard error red */
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
 }

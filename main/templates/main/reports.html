@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reports</title>
+    <title>Reports | Zenith</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         .placeholder-content {
             text-align: center;
             padding: 50px;
-            color: #777;
+            color: #718096;
         }
         .placeholder-content i {
             font-size: 50px;
             margin-bottom: 20px;
+            color: #A0AEC0;
         }
     </style>
 </head>
@@ -24,7 +24,14 @@
     <div class="dashboard-container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <img src="{% static 'images/homecredit-white.png' %}" alt="Logo" class="logo">
+                <svg width="120" height="35" viewBox="0 0 120 35" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="none" fill-rule="evenodd">
+                        <path d="M0 35L17.5 5L35 35H25.219L17.5 18.281L9.781 35H0Z" fill="#FFFFFF"/>
+                        <text font-family="Poppins, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">
+                            <tspan x="45" y="29">Zenith</tspan>
+                        </text>
+                    </g>
+                </svg>
             </div>
             <ul class="sidebar-menu">
                 <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
@@ -47,7 +54,7 @@
                 <div class="placeholder-content">
                     <i class="fas fa-chart-line"></i>
                     <h3>Coming Soon!</h3>
-                    <p>This section will feature detailed reports, spending breakdowns by category, and income vs. expense charts to give you deeper insights into your finances.</p>
+                    <p>This section will feature detailed reports, spending breakdowns, and charts to give you deeper insights into your finances.</p>
                 </div>
             </div>
         </div>

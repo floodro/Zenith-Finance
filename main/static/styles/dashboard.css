@@ -1,8 +1,8 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f4f7fa;
+    background-color: #F7FAFC; /* New background */
     margin: 0;
-    color: #333;
+    color: #2D3748; /* New text color */
 }
 
 .dashboard-container {
@@ -12,23 +12,21 @@ body {
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: #ffffff;
+    background-color: #2D3748; /* Dark sidebar background */
     height: 100vh;
     display: flex;
     flex-direction: column;
     border-right: 1px solid #e0e0e0;
+    position: fixed; /* Keep sidebar fixed */
+    left: 0;
+    top: 0;
 }
 
 .sidebar-header {
     padding: 20px;
     text-align: center;
-    background-color: #bd0e2b;
-    color: #ffffff;
-}
-
-.sidebar-header h3 {
-    margin: 0;
-    font-weight: 600;
+    background-color: #2C5282; /* Primary Blue */
+    flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .sidebar-menu {
@@ -36,34 +34,40 @@ body {
     padding: 20px 0;
     margin: 0;
     flex-grow: 1;
+    overflow-y: auto; /* Allow scrolling if menu is long */
 }
 
 .sidebar-menu li a {
     display: block;
     padding: 15px 20px;
-    color: #333;
+    color: #E2E8F0; /* Lighter text for dark sidebar */
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
 }
 
-.sidebar-menu li a:hover,
+.sidebar-menu li a:hover {
+    background-color: #4A5568;
+}
+
 .sidebar-menu li.active a {
-    background-color: #bd0e2b;
+    background-color: #2C5282; /* Primary Blue for active link */
     color: #ffffff;
 }
 
 .sidebar-menu li a i {
     margin-right: 10px;
+    width: 20px; /* Align icons */
 }
 
 .sidebar-footer {
     padding: 20px;
     text-align: center;
+    flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
 .logout-btn {
-    background-color: #bd0e2b;
+    background-color: #4A5568; /* A neutral dark grey */
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -75,13 +79,14 @@ body {
 }
 
 .logout-btn:hover {
-    background-color: #a40c25;
+    background-color: #2D3748;
 }
 
 /* Main Content */
 .main-content {
     flex-grow: 1;
-    padding: 20px;
+    padding: 30px;
+    margin-left: 250px; /* Offset content to the right of the fixed sidebar */
 }
 
 .header h2 {
@@ -90,7 +95,7 @@ body {
 }
 
 .header p {
-    color: #777;
+    color: #718096;
 }
 
 /* Cards */
@@ -105,13 +110,14 @@ body {
     background-color: #ffffff;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border: 1px solid #E2E8F0;
 }
 
 .card-header h4 {
     margin: 0;
     font-weight: 600;
-    color: #777;
+    color: #718096;
 }
 
 .card-body h2 {
@@ -120,20 +126,21 @@ body {
 }
 
 .income-amount {
-    color: #28a745;
+    color: #38A169; /* Darker Green */
 }
 
 .expense-amount {
-    color: #dc3545;
+    color: #E53E3E; /* Error Red */
 }
 
-/* Recent Transactions */
+/* Recent Transactions Table & Forms */
 .recent-transactions {
     margin-top: 40px;
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border: 1px solid #E2E8F0;
 }
 
 .recent-transactions h3 {
@@ -150,39 +157,17 @@ table {
 th, td {
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #E2E8F0;
 }
 
 th {
     font-weight: 600;
-    background-color: #f4f7fa;
-}
-
-.status-completed {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 5px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-}
-
-.status-pending {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 5px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-}
-
-.logo {
-    width: 150px;
-    height: auto;
-    margin-bottom: 1rem;
+    background-color: #F7FAFC;
 }
 
 .status-income {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #C6F6D5;
+    color: #2F855A;
     padding: 5px 10px;
     border-radius: 12px;
     font-size: 12px;
@@ -190,10 +175,84 @@ th {
 }
 
 .status-expense {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #FED7D7;
+    color: #C53030;
     padding: 5px 10px;
     border-radius: 12px;
     font-size: 12px;
     font-weight: 600;
+}
+
+/* General Button in App */
+.btn {
+    background-color: #48BB78; /* Action Green */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #38A169; /* Darker Green */
+}
+
+.btn-secondary {
+    background-color: #A0AEC0;
+}
+.btn-secondary:hover {
+    background-color: #718096;
+}
+
+/* Forms inside the app */
+.profile-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 600;
+}
+
+.input-field {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #2C5282; /* Primary Blue */
+}
+
+.input-field:disabled {
+    background-color: #f4f7fa;
+}
+
+.form-actions {
+    grid-column: 1 / -1; /* Span across all columns */
+    text-align: right;
+    margin-top: 20px;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
