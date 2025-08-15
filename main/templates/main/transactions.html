@@ -31,10 +31,13 @@
                     <h2>Transactions</h2>
                     <p>A complete history of your financial activity.</p>
                 </div>
-                <!-- This button now has a unique ID to open the modal -->
-                <button id="addTransactionBtn" class="btn">Add New Transaction</button>
-            </div>
 
+                <button id="addTransactionBtn" class="btn" style="display: flex; align-items: center; gap: 10px; font-size: 1.1rem;">
+                    <i class="fa-solid fa-circle-plus" style="font-size: 1.5rem;"></i>
+                    <span>Add New Transaction</span>
+                </button>
+            </div>
+            
             {% if messages %}
             <div class="messages-container">
                 {% for message in messages %}

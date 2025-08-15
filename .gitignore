@@ -3,6 +3,7 @@ env/
 
 # Database file
 db.sqlite3
+db.sqlite3-journal
 
 # Python
 __pycache__/

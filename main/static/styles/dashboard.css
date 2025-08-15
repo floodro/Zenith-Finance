@@ -188,12 +188,13 @@ th {
     background-color: #48BB78; /* Action Green */
     color: #ffffff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 10px 25px;
+    border-radius: 30px; /* Make button pill-shaped */
     cursor: pointer;
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s ease;
+    height: 50px;
 }
 
 .btn:hover {
