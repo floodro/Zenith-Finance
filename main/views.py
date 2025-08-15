@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from .models import Profile
 
 from .models import Transaction
 from .forms import TransactionForm
@@ -62,30 +63,48 @@ def dashboard_view(request):
     
     total_income = all_transactions.filter(transaction_type='INCOME').aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
     total_expenses = all_transactions.filter(transaction_type='EXPENSE').aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
-    total_transfers = all_transactions.filter(transaction_type='TRANSFER').aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
-    total_refunds = all_transactions.filter(transaction_type='REFUND').aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
     total_balance = total_income - total_expenses
 
     context = {
         'total_balance': total_balance,
         'total_income': total_income,
         'total_expenses': total_expenses,
-        'total_transfers': total_transfers,
-        'total_refunds': total_refunds,
         'transactions': recent_transactions,
     }
     return render(request, 'main/dashboard.html', context)
 
 @login_required
+def add_transaction_view(request):  
+    # This view now only processes the form submission
+    if request.method == "POST":
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            transaction.user = request.user
+            transaction.save()
+            messages.success(request, "Transaction added successfully!")
+        else:
+            # Add specific form errors as messages
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{form.fields[field].label}: {error}")
+    
+    # Always redirect back to the transactions list page
+    return redirect("transactions")
+
+@login_required
 def profile_view(request):
+    # This view assumes a Profile model is linked via a OneToOneField
+    profile, created = Profile.objects.get_or_create(user=request.user)
     if request.method == "POST":
         user = request.user
         user.first_name = request.POST.get("first_name")
         user.last_name = request.POST.get("last_name")
         user.email = request.POST.get("email")
-        user.profile.contact_number = request.POST.get("contact_number")
         user.save()
-        user.profile.save() # This is now safe because the profile is guaranteed to exist
+        
+        profile.contact_number = request.POST.get("contact_number")
+        profile.save()
         messages.success(request, "Profile updated successfully!")
         return redirect("profile")
     
@@ -93,24 +112,14 @@ def profile_view(request):
 
 @login_required
 def transactions_list_view(request):
+    # This view now provides the form for the modal
     user_transactions = Transaction.objects.filter(user=request.user)
-    context = {'transactions': user_transactions}
+    form = TransactionForm()
+    context = {
+        'transactions': user_transactions,
+        'form': form, # Pass the form instance to the template
+    }
     return render(request, 'main/transactions.html', context)
-
-@login_required
-def add_transaction_view(request):
-    if request.method == 'POST':
-        form = TransactionForm(request.POST)
-        if form.is_valid():
-            transaction = form.save(commit=False)
-            transaction.user = request.user
-            transaction.save()
-            messages.success(request, 'Transaction added successfully!')
-            return redirect('transactions')
-    else:
-        form = TransactionForm()
-    
-    return render(request, 'main/add_transaction.html', {'form': form})
 
 @login_required
 def reports_view(request):

@@ -4,7 +4,8 @@ env/
 # Database file
 db.sqlite3
 
-# Ignore Python bytecode files
+# Python
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
@@ -14,3 +15,9 @@ db.sqlite3
 
 # Pytest cache
 .pytest_cache/
+
+# Django migrations
+migrations/
+
+# Database
+*.sqlite3
