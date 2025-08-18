@@ -262,73 +262,84 @@ th {
 
 /* The Modal Background (Overlay) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top of everything */
+  display: none;
+  position: fixed;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
-  -webkit-animation-name: fadeIn; /* Fade in the background */
-  -webkit-animation-duration: 0.4s;
-  animation-name: fadeIn;
-  animation-duration: 0.4s
+  overflow: auto;
+  background-color: rgba(44, 82, 130, 0.15); /* Slightly blue overlay */
+  animation: fadeIn 0.4s;
 }
 
 /* Modal Content Box */
 .modal-content {
   position: relative;
   background-color: #ffffff;
-  margin: 10% auto; /* Centered with top margin */
+  margin: 7% auto;
   padding: 0;
-  border: 1px solid #e0e0e0;
+  border: none;
   width: 90%;
-  max-width: 500px; /* Responsive max width */
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  border-radius: 10px; /* Consistent with cards */
-  -webkit-animation-name: slideIn;
-  -webkit-animation-duration: 0.4s;
-  animation-name: slideIn;
-  animation-duration: 0.4s
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(44,82,130,0.12);
+  border-radius: 16px;
+  animation: slideIn 0.4s;
 }
 
-/* Modal Header */
-.modal-header {
+/* Modal Header (shared for both modals) */
+.modal-header,
+.modal-content > h2 {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 25px;
+  justify-content: space-between;
+  padding: 20px 32px;
   background-color: #2C5282;
   color: #ffffff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 1.25rem;
+  font-weight: 600;
 }
 
-/* The Close Button */
-.close-button {
+/* The Close Button (for transaction modal) */
+.close-button,
+.close {
   color: #ffffff;
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
   transition: color 0.3s;
+  margin-left: 16px;
+  background: none;
+  border: none;
+  outline: none;
 }
 
 .close-button:hover,
-.close-button:focus {
+.close-button:focus,
+.close:hover,
+.close:focus {
   color: #d9d9d9;
   text-decoration: none;
 }
 
 /* Modal Body */
-.modal-body {
-  padding: 25px;
+.modal-body,
+.modal-content > form,
+.modal-content > .note {
+  padding: 32px;
+  background-color: #fff;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 /* Modal Footer */
@@ -336,45 +347,65 @@ th {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 20px 25px;
+  padding: 20px 32px;
   border-top: 1px solid #e0e0e0;
+  background: #f7fafc;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
-.btn-cancel {
-    background-color: #6c757d; /* A neutral grey */
-    color: #ffffff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.3s;
+/* CSV Modal Note */
+.note {
+  margin-top: 18px;
+  font-size: 0.95rem;
+  color: #718096;
+  background: #f7fafc;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
 }
 
-.btn-cancel:hover {
-    background-color: #5a6268;
+/* Alert Styles */
+.alert-container {
+    margin: 1rem auto;
+    max-width: 600px;
 }
 
-/* Positioning the 'Add Transaction' button in the header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.alert.success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.alert.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+}
+
+.alert.warning {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
 }
 
 /* Modal Animations */
-@-webkit-keyframes slideIn {
-  from {top: -300px; opacity: 0} 
-  to {top: 0; opacity: 1}
-}
-
 @keyframes slideIn {
-  from {margin-top: 5%; opacity: 0} 
-  to {margin-top: 10%; opacity: 1}
+  from {margin-top: 2%; opacity: 0}
+  to {margin-top: 7%; opacity: 1}
 }
 
+@keyframes fadeIn {
+  from {opacity: 0}
+  to {opacity: 1}
+}
 @-webkit-keyframes fadeIn {
   from {opacity: 0} 
   to {opacity: 1}

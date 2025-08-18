@@ -12,9 +12,7 @@ urlpatterns = [
     path("profile/", views.profile_view, name='profile'),
     path("transactions/", views.transactions_list_view, name='transactions'),
     path("transactions/add/", views.add_transaction_view, name='add_transaction'),
+    path("transactions/upload/", views.upload_transactions_view, name="transaction_upload"),
     path("reports/", views.reports_view, name='reports'),
     path("settings/", views.settings_view, name='settings'),
-    
-    # Optional Admin Page
-    # path("admin/upload/", views.admin_upload_view, name='admin_upload'),
 ]

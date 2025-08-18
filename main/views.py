@@ -1,17 +1,24 @@
-from decimal import Decimal
+import csv, datetime, logging
+
+from django.utils.dateparse import parse_date
+from decimal import Decimal, InvalidOperation
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from .models import Profile
 
+from .models import Profile
 from .models import Transaction
+from .models import Category
+
 from .forms import TransactionForm
+from .forms import CSVUploadForm    
+
+logger = logging.getLogger(__name__)
 
 # --- Authentication Views ---
-
 def signup_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -54,8 +61,7 @@ def logout_view(request):
     messages.success(request, "You have been logged out.")
     return redirect("login")
 
-# --- Core App Views ---
-
+# --- Dashboard View ---
 @login_required
 def dashboard_view(request):
     all_transactions = Transaction.objects.filter(user=request.user)
@@ -73,25 +79,7 @@ def dashboard_view(request):
     }
     return render(request, 'main/dashboard.html', context)
 
-@login_required
-def add_transaction_view(request):  
-    # This view now only processes the form submission
-    if request.method == "POST":
-        form = TransactionForm(request.POST)
-        if form.is_valid():
-            transaction = form.save(commit=False)
-            transaction.user = request.user
-            transaction.save()
-            messages.success(request, "Transaction added successfully!")
-        else:
-            # Add specific form errors as messages
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{form.fields[field].label}: {error}")
-    
-    # Always redirect back to the transactions list page
-    return redirect("transactions")
-
+# --- Profile View ---
 @login_required
 def profile_view(request):
     # This view assumes a Profile model is linked via a OneToOneField
@@ -110,21 +98,124 @@ def profile_view(request):
     
     return render(request, 'main/profile.html')
 
+# --- Transactions Views ---
 @login_required
 def transactions_list_view(request):
-    # This view now provides the form for the modal
+    """Show user's transactions + transaction form."""
     user_transactions = Transaction.objects.filter(user=request.user)
-    form = TransactionForm()
+    form = TransactionForm(user=request.user)  # pass user for category filtering
     context = {
-        'transactions': user_transactions,
-        'form': form, # Pass the form instance to the template
+        "transactions": user_transactions,
+        "form": form,
     }
-    return render(request, 'main/transactions.html', context)
+    return render(request, "main/transactions.html", context)
 
+@login_required
+def add_transaction_view(request):
+    if request.method == "POST":
+        form = TransactionForm(request.POST, user=request.user)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            transaction.user = request.user
+            transaction.save()
+            messages.success(request, "✅ Transaction added successfully!")
+        else:
+            logger.warning(f"Transaction add failed: {form.errors}")
+            messages.error(request, "❌ Failed to add transaction. Please check your inputs.")
+
+    return redirect("transactions")
+
+@login_required
+def upload_transactions_view(request):
+    """Handle CSV uploads for bulk transactions."""
+    if request.method == "POST" and request.FILES.get("file"):
+        file = request.FILES["file"]
+        decoded_file = file.read().decode("utf-8").splitlines()
+        reader = csv.DictReader(decoded_file)
+
+        added, skipped = 0, 0
+
+        for i, row in enumerate(reader, start=2):
+            try:
+                # Parse date
+                try:
+                    date = datetime.datetime.strptime(row["date"], "%Y-%m-%d").date()
+                except ValueError:
+                    logger.warning(f"Row {i} skipped: invalid date {row['date']}")
+                    skipped += 1
+                    continue
+
+                # Parse amount
+                try:
+                    amount = Decimal(row["amount"])
+                    if amount <= 0:
+                        raise InvalidOperation
+                except Exception:
+                    logger.warning(f"Row {i} skipped: invalid amount {row['amount']}")
+                    skipped += 1
+                    continue
+
+                # Transaction type
+                valid_types = dict(Transaction.TRANSACTION_TYPE_CHOICES).keys()
+                transaction_type = row["transaction_type"].upper()
+                if transaction_type not in valid_types:
+                    logger.warning(f"Row {i} skipped: invalid type {transaction_type}")
+                    skipped += 1
+                    continue
+
+                # Category (optional)
+                category = None
+                if row.get("category"):
+                    category = Category.objects.filter(name=row["category"]).first()
+
+                # Duplicate check
+                duplicate = Transaction.objects.filter(
+                    user=request.user,
+                    date=date,
+                    description=row["description"],
+                    amount=amount,
+                    transaction_type=transaction_type,
+                ).exists()
+                if duplicate:
+                    logger.info(f"Row {i} skipped: duplicate transaction")
+                    skipped += 1
+                    continue
+
+                # Save transaction
+                Transaction.objects.create(
+                    user=request.user,
+                    date=date,
+                    description=row["description"],
+                    amount=amount,
+                    transaction_type=transaction_type,
+                    category=category,
+                    merchant=row.get("merchant", ""),
+                    payment_method=row.get("payment_method", ""),
+                    notes=row.get("notes", ""),
+                )
+                added += 1
+
+            except Exception as e:
+                logger.error(f"Row {i} skipped: unexpected error ({e})")
+                skipped += 1
+
+        # Final message (frontend-friendly)
+        if added > 0:
+            messages.success(request, f"✅ Imported {added} transactions. Skipped {skipped}.")
+        else:
+            messages.error(request, "❌ Upload failed.")
+
+    else:
+        messages.error(request, "❌ No file uploaded.")
+
+    return redirect("transactions")
+
+# --- Reports Views ---
 @login_required
 def reports_view(request):
     return render(request, 'main/reports.html')
 
+# --- Settings View ---
 @login_required
 def settings_view(request):
     return render(request, 'main/settings.html')
