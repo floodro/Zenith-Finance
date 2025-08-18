@@ -25,17 +25,23 @@
                 <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
+        
         <div class="main-content">
             <div class="header header-actions">
                 <div>
                     <h2>Transactions</h2>
                     <p>A complete history of your financial activity.</p>
                 </div>
-
-                <button id="addTransactionBtn" class="btn" style="display: flex; align-items: center; gap: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-plus" style="font-size: 1.5rem;"></i>
-                    <span>Add New Transaction</span>
-                </button>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn add-transaction-btn" id="addTransactionBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>Add New Transaction</span>
+                    </button>
+                    <button id="openUploadModal" class="btn btn-secondary">
+                        <i class="fas fa-file-upload"></i> 
+                        <span> Import CSV </span>
+                    </button>
+                </div>
             </div>
             
             {% if messages %}
@@ -53,15 +59,26 @@
                         <tr>
                             <th>Date</th>
                             <th>Description</th>
+                            <th>Category</th>
+                            <th>Merchant</th>
                             <th>Type</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         {% for transaction in transactions %}
                         <tr>
                             <td>{{ transaction.date|date:"Y-m-d" }}</td>
                             <td>{{ transaction.description }}</td>
+                            <td>
+                                {% if transaction.category %}
+                                    {{ transaction.category.parent.name }} › {{ transaction.category.name }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>{{ transaction.merchant|default:"—" }}</td>
                             <td>
                                 <span class="status-{{ transaction.transaction_type|lower }}">
                                     {{ transaction.get_transaction_type_display }}
@@ -108,6 +125,23 @@
                                 {{ form.amount.label_tag }}
                                 {{ form.amount }}
                             </div>
+                            <div class="form-group">
+                                {{ form.category.label_tag }}
+                                {{ form.category }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.merchant.label_tag }}
+                                {{ form.merchant }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.payment_method.label_tag }}
+                                {{ form.payment_method }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.notes.label_tag }}
+                                {{ form.notes }}
+                            </div>
+
                             <div class="modal-footer">
                                 <button type="button" class="btn-cancel">Cancel</button>
                                 <button type="submit" class="btn">Save Transaction</button>
@@ -116,10 +150,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- CSV Upload Modal -->
+            <div id="uploadModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Import Transactions from CSV</h2>
+                        <span class="close" id="closeUploadModal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data" action="{% url 'transaction_upload' %}">
+                            {% csrf_token %}
+                            <div style="display: flex; flex-direction: column; gap: 18px;">
+                                <input type="file" name="file" accept=".csv" class="input-field" required style="margin-bottom: 12px;">
+                                <button type="submit" class="btn">Upload</button>
+                            </div>
+                        </form>
+                        <p class="note">CSV must include: date, description, amount, transaction_type, category, merchant, payment_method, notes</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 <script src="{% static 'script/dashboard.js' %}"></script>
-<script> document.addEventListener('DOMContentLoaded', modalSetup); </script>
+<script>
+    document.addEventListener('DOMContentLoaded', openTransactionModal);
+    document.addEventListener('DOMContentLoaded', openUploadModal);
+</script>
 </body>
 </html>
