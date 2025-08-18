@@ -1,4 +1,4 @@
-import csv, datetime, logging
+import csv, datetime, logging, json, calendar
 
 from django.utils.dateparse import parse_date
 from decimal import Decimal, InvalidOperation
@@ -213,7 +213,45 @@ def upload_transactions_view(request):
 # --- Reports Views ---
 @login_required
 def reports_view(request):
-    return render(request, 'main/reports.html')
+    user = request.user
+
+    # Group income & expenses by month
+    monthly_data = (
+        Transaction.objects.filter(user=user)
+        .values("transaction_type", "date__month")
+        .annotate(total=Sum("amount"))
+    )
+
+    months = [calendar.month_name[m] for m in range(1, 13)]
+    income_data = [0] * 12
+    expense_data = [0] * 12
+
+    for entry in monthly_data:
+        month_idx = entry["date__month"] - 1
+        if entry["transaction_type"] == "INCOME":
+            income_data[month_idx] = float(entry["total"])
+        elif entry["transaction_type"] == "EXPENSE":
+            expense_data[month_idx] = float(entry["total"])
+
+    # Group expenses by category
+    expense_categories = (
+        Transaction.objects.filter(user=user, transaction_type="EXPENSE", category__isnull=False)
+        .values("category__name")
+        .annotate(total=Sum("amount"))
+    )
+
+    category_labels = [c["category__name"] for c in expense_categories]
+    category_totals = [float(c["total"]) for c in expense_categories]
+
+    context = {
+        "months": json.dumps(months),
+        "income_data": json.dumps(income_data),
+        "expense_data": json.dumps(expense_data),
+        "category_labels": json.dumps(category_labels),
+        "category_totals": json.dumps(category_totals),
+    }
+    
+    return render(request, 'main/reports.html', context)
 
 # --- Settings View ---
 @login_required

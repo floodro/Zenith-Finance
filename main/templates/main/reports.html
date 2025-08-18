@@ -4,24 +4,14 @@
     <title>Reports | Zenith</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/report.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .placeholder-content {
-            text-align: center;
-            padding: 50px;
-            color: #718096;
-        }
-        .placeholder-content i {
-            font-size: 50px;
-            margin-bottom: 20px;
-            color: #A0AEC0;
-        }
-    </style>
 </head>
 <body>
     <div class="dashboard-container">
+        <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <svg width="120" height="35" viewBox="0 0 120 35" xmlns="http://www.w3.org/2000/svg">
@@ -44,20 +34,35 @@
                 <a href="{% url 'logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
+
+        <!-- Main Content -->
         <div class="main-content">
             <div class="header">
-                <h2>Reports</h2>
-                <p>Visualize your financial data.</p>
+                <h2>Reports & Analytics</h2>
+                <p>Visualize your financial trends</p>
             </div>
 
-            <div class="recent-transactions">
-                <div class="placeholder-content">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Coming Soon!</h3>
-                    <p>This section will feature detailed reports, spending breakdowns, and charts to give you deeper insights into your finances.</p>
+            <div class="reports-container">
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h4>Income vs Expenses</h4>
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h4>Expense Breakdown</h4>
+                        <canvas id="expenseBreakdownChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="months" type="application/json">{{ months|safe }}</script>
+<script id="incomeData" type="application/json">{{ income_data|safe }}</script>
+<script id="expenseData" type="application/json">{{ expense_data|safe }}</script>
+<script id="categoryLabels" type="application/json">{{ category_labels|safe }}</script>
+<script id="categoryTotals" type="application/json">{{ category_totals|safe }}</script>
+<script src="{% static 'script/reports.js' %}"></script>
 </body>
 </html>
