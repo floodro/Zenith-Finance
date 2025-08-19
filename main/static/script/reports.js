@@ -63,3 +63,57 @@ new Chart(ctx2, {
         maintainAspectRatio: false,
     }
 });
+
+// Chart 3: Line Chart (Trends Over Time)
+const ctx3 = document.getElementById('incomeExpenseLineChart').getContext('2d');
+new Chart(ctx3, {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [
+            {
+                label: 'Income',
+                data: normalizedIncome,
+                borderColor: '#38A169',
+                backgroundColor: 'rgba(56, 161, 105, 0.2)',
+                fill: true,
+                tension: 0.3
+            },
+            {
+                label: 'Expenses',
+                data: normalizedExpense,
+                borderColor: '#E53E3E',
+                backgroundColor: 'rgba(229, 62, 62, 0.2)',
+                fill: true,
+                tension: 0.3
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Chart 4: Income Breakdown (Pie Chart)
+const ctx4 = document.getElementById('incomeBreakdownChart').getContext('2d');
+new Chart(ctx4, {
+    type: 'pie',
+    data: {
+        labels: categoryLabels,
+        datasets: [{
+            data: categoryTotals,
+            backgroundColor: [
+                '#38A169', '#3182CE', '#DD6B20', '#E53E3E', '#805AD5',
+                '#D53F8C', '#319795', '#718096', '#F6E05E', '#4FD1C5'
+            ],
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+    }
+});

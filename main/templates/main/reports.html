@@ -47,11 +47,41 @@
                     <div class="report-card">
                         <h4>Income vs Expenses</h4>
                         <canvas id="incomeExpenseChart"></canvas>
+
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Income</th>
+                                    <th>Expenses</th>
+                                    <th>Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for month, income, expense in report_summary %}
+                                <tr>
+                                    <td>{{ month }}</td>
+                                    <td>${{ income }}</td>
+                                    <td>${{ expense }}</td>
+                                    <td class="{% if income|add:"-expense" < 0 %}negative{% else %}positive{% endif %}">
+                                        ${{ income|add:"-expense" }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                     <div class="report-card">
                         <h4>Expense Breakdown</h4>
                         <canvas id="expenseBreakdownChart"></canvas>
                     </div>
+                    <div class="report-card">
+                        <h4>Trends Over Time</h4>
+                        <canvas id="incomeExpenseLineChart"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h4>Income Breakdown</h4>
+                        <canvas id="incomeBreakdownChart"></canvas>
                 </div>
             </div>
         </div>
