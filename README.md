@@ -3,23 +3,15 @@
 A personal finance tracking web application built with Django. This project allows users to manage their income and expenses, view financial summaries on a dashboard, and maintain their user profile.
 
 ## Features
-
 -   **User Authentication**: Secure user registration, login, and logout functionality.
-![Login Page](https://github.com/user-attachments/assets/cbed4ba6-b7f9-45a9-8ada-0037c59eaee8)
-![Signup](https://github.com/user-attachments/assets/65dc02ca-9411-480c-8803-66f8798ceb32)
-
 -   **Financial Dashboard**: An at-a-glance view of total balance, total income, and total expenses.
-![Dashboard](https://github.com/user-attachments/assets/e79da1de-acaf-4647-9b04-bdc255397ebf)
 -   **Transaction Management**:
     -   List all personal transactions with details.
     -   Add new income or expense transactions through a dedicated form.
     -   Categorize transactions as 'Income' or 'Expense'.
-      ![Transactions](https://github.com/user-attachments/assets/4f8fea85-42af-404f-aa52-2a349adab183)
-      ![Add New Transaction](https://github.com/user-attachments/assets/67653584-a318-4f07-b734-c0178e5cc1af)
 -   **Profile Management**:
     -   View and edit user information (first name, last name, email).
     -   Fields are disabled by default and can be enabled with an "Edit" button for safe updates.
-      ![Profile](https://github.com/user-attachments/assets/2c4f2b0e-356a-49e6-8480-3f1a91791d07)
 
 -   **Admin Interface**: A basic (work-in-progress) view for admins to upload transactions in bulk.
 
@@ -27,7 +19,7 @@ A personal finance tracking web application built with Django. This project allo
 
 -   **Backend**: Python, Django
 -   **Frontend**: HTML, CSS, JavaScript, Chart.js
--   **Database**: MySQL
+-   **Database**: SQLite
 
 ## Setup and Installation
 
@@ -101,6 +93,6 @@ The application will be available at `http://127.0.0.1:8000/`.
 3.  **Dashboard**: After logging in, you will be redirected to your personal dashboard where you can see a summary of your finances.
 4.  **Add a Transaction**: Go to the "Transactions" tab and click the "Add New Transaction" button to record a new income or expense.
 5.  **Edit Your Profile**: Go to the "Profile" tab to view or update your personal information. Click the "Edit Profile" button to enable the fields.
-6.  **Reports Page**: Develop a data visualization page with charts and graphs to show spending trends and income vs. expense breakdowns.
+6.  **Reports Page**: Go to the "Reports" tab to view data with charts and graphs to show spending trends and income vs. expense breakdowns.
 7.   **Settings Page**: Implement functionality for users to change their password and manage notification preferences.
 8.   **Accounts Management**: Add the ability to manage multiple financial accounts (e.g., checking, savings, credit card).
