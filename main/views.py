@@ -14,7 +14,8 @@ from .models import Transaction
 from .models import Category
 
 from .forms import TransactionForm
-from .forms import CSVUploadForm    
+from .forms import CSVUploadForm  
+from .forms import EnhancedUserCreationForm  
 
 logger = logging.getLogger(__name__)
 
@@ -22,23 +23,21 @@ logger = logging.getLogger(__name__)
 def signup_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
+    
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
+        form = EnhancedUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, "🎉 Account created successfully! Please log in with your new credentials.")
+            return redirect("login")
+        else:
+            # Form will handle displaying validation errors
+            pass
+    else:
+        form = EnhancedUserCreationForm()
         
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match!")
-            return redirect("signup")
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists!")
-            return redirect("signup")
-            
-        user = User.objects.create_user(username=username, password=password)
-        messages.success(request, "Account created! Please log in.")
-        return redirect("login")
-        
-    return render(request, 'main/signup.html')
+    return render(request, 'main/signup.html', {'form': form})
+
 
 def login_view(request):
     if request.user.is_authenticated:
